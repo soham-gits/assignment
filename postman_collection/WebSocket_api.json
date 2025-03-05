@@ -1,0 +1,12 @@
+{
+  "name": "WebSocket Chat API",
+  "endpoint": "ws://localhost:8000/ws/chat/",
+  "description": "This WebSocket allows real-time chat between users.",
+  "example_request": {
+    "message": "Hello WebSocket!"
+  },
+  "example_response": {
+    "message": "Hello WebSocket!"
+  }
+}
+

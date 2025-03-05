@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Picker API</title>
+    <script src="https://apis.google.com/js/api.js" onload="onGapiLoad()"></script>
+    <script>
+        let oauthToken = "";
+
+        function onGapiLoad() {
+            gapi.load("client:auth2", initAuth);
+            gapi.load("picker", onPickerApiLoad);
+        }
+
+        function initAuth() {
+            gapi.auth2.init({
+                client_id: "581138601406-q0b3cafhqf64bkqrnpjf9u3dj366u4ts.apps.googleusercontent.com"
+            }).then(() => {
+                let authInstance = gapi.auth2.getAuthInstance();
+                if (!authInstance.isSignedIn.get()) {
+                    authInstance.signIn().then(() => {
+                        oauthToken = authInstance.currentUser.get().getAuthResponse().access_token;
+                        document.getElementById('pickFile').disabled = false;
+                    });
+                }
+            });
+        }
+
+        function createPicker() {
+            if (!oauthToken) {
+                alert("OAuth Token missing! Try signing in again.");
+                return;
+            }
+
+            let picker = new google.picker.PickerBuilder()
+                .addView(google.picker.ViewId.DOCS)
+                .setOAuthToken(oauthToken)
+                .setDeveloperKey("AIzaSyAwQdITOMguRzSQz8ZJ8wA8jaN9Zv4BM0A")
+                .setCallback(pickerCallback)
+                .build();
+            picker.setVisible(true);
+        }
+
+        function pickerCallback(data) {
+            if (data.action === google.picker.Action.PICKED) {
+                alert('File ID: ' + data.docs[0].id);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Google Picker API</h2>
+    <button id="pickFile" onclick="createPicker()" disabled>Select File</button>
+</body>
+</html>
