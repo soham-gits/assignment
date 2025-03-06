@@ -3,3 +3,4 @@ credential/Oauth.json
 .env
 postman_collection/Assignment.postman_collection.json
 
+env/
