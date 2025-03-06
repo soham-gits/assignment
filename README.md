@@ -3,7 +3,7 @@
 ## Project Overview
 This is a Django-based project that integrates Google OAuth authentication, Google Drive API, and WebSockets using Django Channels. It allows users to authenticate via Google, interact with Google Drive, and use real-time WebSockets for communication.
 
-## ⚡ Features
+## Features
 - **Google OAuth Authentication**
 - **Google Drive File Uploads**
 - **WebSockets for Real-Time Communication**
