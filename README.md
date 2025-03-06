@@ -72,7 +72,7 @@ The API will be available at `http://127.0.0.1:8000/`
 
 ---
 
-### **2⃣ Google Drive Integration**
+### **2 Google Drive Integration**
 #### Connect Google Drive
 **Endpoint:** `GET /drive/connect/`
 - Authorizes access to Google Drive.
@@ -99,7 +99,7 @@ The API will be available at `http://127.0.0.1:8000/`
 
 ---
 
-### **3⃣ WebSocket for User Chat**
+### **3 WebSocket for User Chat**
 #### Real-Time Chat
 - Connect via WebSocket at:
   ```
