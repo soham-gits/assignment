@@ -9,8 +9,9 @@ environ.Env.read_env(os.path.join(Path(__file__).resolve().parent.parent, ".env"
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security
-SECRET_KEY = env("SECRET_KEY")
-DEBUG = env.bool("DEBUG", default=True)
+SECRET_KEY = env("SECRET_KEY", default="django-insecure-default-key")
+DEBUG = env.bool("DEBUG", default=False)
+
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
 
 # Application definition
@@ -59,34 +60,26 @@ TEMPLATES = [
 WSGI_APPLICATION = 'assignment.wsgi.application'
 ASGI_APPLICATION = 'assignment.asgi.application'
 
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # Google OAuth
-GOOGLE_CLIENT_ID = env("GOOGLE_CLIENT_ID")
-GOOGLE_CLIENT_SECRET = env("GOOGLE_CLIENT_SECRET")
-GOOGLE_AUTH_REDIRECT_URI = env("GOOGLE_AUTH_REDIRECT_URI")
-GOOGLE_AUTH_SCOPE = env.list("GOOGLE_AUTH_SCOPE")
+GOOGLE_CLIENT_ID = env("GOOGLE_CLIENT_ID", default="")
+GOOGLE_CLIENT_SECRET = env("GOOGLE_CLIENT_SECRET", default="")
+GOOGLE_AUTH_REDIRECT_URI = env("GOOGLE_AUTH_REDIRECT_URI", default="http://localhost:8000/auth/callback/")
+GOOGLE_AUTH_SCOPE = env.list("GOOGLE_AUTH_SCOPE", default=["openid", "email", "profile"])
 
 # Google Drive API
-GOOGLE_API_KEY = env("GOOGLE_API_KEY")
-GOOGLE_DRIVE_SCOPES = env.list("GOOGLE_DRIVE_SCOPES")
+GOOGLE_API_KEY = env("GOOGLE_API_KEY", default="")
+GOOGLE_DRIVE_SCOPES = env.list("GOOGLE_DRIVE_SCOPES", default=["https://www.googleapis.com/auth/drive.file"])
 
 # Paths to Credentials JSON Files
-GOOGLE_OAUTH_CREDENTIALS = os.path.join(BASE_DIR, env("GOOGLE_OAUTH_CREDENTIALS"))
-GOOGLE_SERVICE_ACCOUNT_CREDENTIALS = os.path.join(BASE_DIR, env("GOOGLE_SERVICE_ACCOUNT_CREDENTIALS"))
+GOOGLE_OAUTH_CREDENTIALS = os.path.join(BASE_DIR, env("GOOGLE_OAUTH_CREDENTIALS", default="assignment/credential/Oauth.json"))
+GOOGLE_SERVICE_ACCOUNT_CREDENTIALS = os.path.join(BASE_DIR, env("GOOGLE_SERVICE_ACCOUNT_CREDENTIALS", default="assignment/credential/service_acc.json"))
 
-# Redis WebSockets
+# Redis WebSockets (For Render, use Redis URL)
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(env("REDIS_HOST"), env.int("REDIS_PORT"))],
+            "hosts": [env("REDIS_URL", default=("127.0.0.1", 6379))],
         },
     }
 }
@@ -107,5 +100,7 @@ USE_TZ = True
 
 # Static files
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
